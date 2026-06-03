@@ -1,0 +1,19 @@
+name: Alerta de despliegue
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notificar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Enviar notificación a ntfy
+        run: |
+          curl -H "Title: Nuevo Push a Main" \
+               -H "Priority: default" \
+               -H "Tags: github,rocket" \
+               -d "Se realizó un push a la rama main en ${{ github.repository }} por ${{ github.actor }}. Commit: ${{ github.event.head_commit.message }}" \
+               https://ntfy.sh/devops-itla
